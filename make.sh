@@ -1,10 +1,14 @@
 #!/bin/bash
 
+COUNT="10"
+if [ "$#" -gt "0" ]; then
+    COUNT="$1"
+fi
 ID="$(curl -s http://173.164.254.148/ptz.cgi\?doc\=East%20Beach%20Webcam\&xml\=1\&cmd\=open\&version\=20100917\&kind\=ctl | egrep -o 'key="id" value="([A-Z0-9_]+)"' | sed -n -E 's/.*value="([^"]+)"/\1/p')"
 URL="http://173.164.254.148/vid.cgi?id=${ID}&doc=East%20Beach%20Webcam&i=1"
 
 if [ "$?" -eq "0" ]; then
-    for i in {1..10}
+    for ((i=1; i<=COUNT; i++));
     do
         start="$(date +"%s")"
         curl -s "${URL}&r=${RANDOM}" > "frames/fr-$(date +"%s").jpg"
