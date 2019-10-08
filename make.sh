@@ -1,5 +1,9 @@
 #!/bin/bash
 
+if [ ! -d "frames" ]; then
+    mkdir frames
+fi
+
 COUNT="10"
 if [ "$#" -gt "0" ]; then
     COUNT="$1"
