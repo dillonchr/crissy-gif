@@ -24,16 +24,10 @@ function ProgressBar {
 if [ "$?" -eq "0" ]; then
     for ((i=1; i<=COUNT; i++));
     do
-        start="$(date +"%s")"
-        curl -s "${URL}&r=${RANDOM}" > "frames/fr-$(date +"%s").jpg"
+        curl -s "${URL}&r=${RANDOM}" > "frames/fr-$(date +"%s")-${i}.jpg"
         if [ ! "$?" -eq "0" ]; then
             echo "Failed to download /shrug"
             exit 2
-        fi
-        fin="$(date +"%s")"
-        result=$((fin - start))
-        if [ "$result" -lt "1" ]; then
-            sleep 1
         fi
         ProgressBar ${i} ${COUNT}
     done
@@ -43,6 +37,7 @@ if [ "$?" -eq "0" ]; then
 
     if [ "$?" -eq "0" ]; then
         rm frames/fr-*.jpg
+        open -a "Google Chrome" "file://${PWD}/${ANIM_NAME}"
     else
         echo "Dang. Sorry dude."
     fi
